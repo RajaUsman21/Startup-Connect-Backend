@@ -3,10 +3,11 @@ import Joi from 'joi';
 const StartupValidator = {
   register: (req, res, next) => {
     const schema = Joi.object({
-      name: Joi.string().required(),
+      startupName: Joi.string().required(),
       description: Joi.string().required(),
       location: Joi.string().required(),
       website: Joi.string().uri().allow(null, ''),
+      logo: Joi.string()
     });
 
     const { value, error } = schema.validate(req.body);

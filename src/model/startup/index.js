@@ -4,7 +4,7 @@ import sequelize from "../../db/config.js";
 const StartupModel = sequelize.define(
   "Startup",
   {
-    name: {
+    startupName: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -12,13 +12,19 @@ const StartupModel = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    location: {
+    address: {
       type: DataTypes.STRING,
       allowNull: false,
     },
+   
+    location: { type: DataTypes.GEOGRAPHY("POINT", 4326), allowNull: false },
     website: {
       type: DataTypes.STRING,
     },
+    logo:{
+      type: DataTypes.STRING
+    }
+
   },
   {
   }

@@ -18,6 +18,9 @@ const UserModel = sequelize.define(
     password: {
       type: DataTypes.STRING,
     },
+    profilePicture:{
+      type:DataTypes.STRING
+    }
   },
   {
   }

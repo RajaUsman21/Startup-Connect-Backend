@@ -1,16 +1,28 @@
 import StartupModel from '../../model/startup/index.js'; // Adjusted import path
+import sequelize from '../../db/config.js';
+import Op from "sequelize"
+import getCoordsForAddress from '../../utils/location.js';
+import axios from 'axios';
 
 const StartupController = {
   registerStartup: async (req, res) => {
-    const payload = req.body;
+    const {startupName,description,address,logo,website} = req.body;
+
     try {
-      if (!payload.name || !payload.description || !payload.location) {
+      if (!startupName || !description || !address || !logo ||!website) {
         return res
           .status(400)
           .json({ message: "Name, description, and location are required" });
       }
 
-      const startup = await StartupModel.create(payload);
+      let locationCoordinates;
+      try {
+        locationCoordinates = await getCoordsForAddress(address);
+      } catch (err) {
+        return next(err);
+      }
+
+      const startup = await StartupModel.create({startupName,description,address,logo,website,location:locationCoordinates});
 
       return res.status(201).json({ message: "Startup registered", data: startup });
     } catch (error) {
@@ -77,18 +89,21 @@ const StartupController = {
     }
   },
 
-  // searchStartups: async (req, res) => {
-  //   const { query } = req.query;
-  //   try {
-  //     const startups = await StartupModel.findAll({
-  //       where: sequelize.literal(`MATCH (name, description, location) AGAINST ('${query}' IN NATURAL LANGUAGE MODE)`)
-  //     });
-  //     res.status(200).json({ data: startups });
-  //   } catch (error) {
-  //     console.error("Search startups error: ", error);
-  //     res.status(500).json({ message: "Internal server error", error });
-  //   }
-  // },
+  searchStartups: async (req, res) => {
+    const { query } = req.query;
+    try {
+      const startups = await StartupModel.findAll({
+        where: {[Op.or]:[
+          {name:query},{description:query},{location:query}
+
+        ]}
+      });
+      res.status(200).json({ data: startups });
+    } catch (error) {
+      console.error("Search startups error: ", error);
+      res.status(500).json({ message: "Internal server error", error });
+    }
+  },
 };
 
 export default StartupController;
