@@ -18,6 +18,8 @@ const StartupModel = sequelize.define(
     },
    
     location: { type: DataTypes.GEOGRAPHY("POINT", 4326), allowNull: false },
+
+    
     website: {
       type: DataTypes.STRING,
     },

@@ -3,12 +3,16 @@ import { connectionDB } from './db/config.js';
 import syncDB from './db/init.js';
 import allRoutes from './routes/index.js';
 import cors from "cors"
+
 // import { uploadSingle } from './middleware/multer.js';
 
 
 const app = express();
-app.use(cors())
 app.use(express.json())
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors())
+
 connectionDB();
 syncDB();
 
