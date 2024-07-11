@@ -15,7 +15,6 @@ const storage = multer.diskStorage({
     cb(null, "uploads/");
   },
   filename: (req, file, cb) => {
-    // Generate a random 10-digit string
     const randomName = generateRandomString(10);
     const extension = file.originalname.split('.').pop();
     cb(null, `${randomName}.${extension}`);

@@ -1,8 +1,9 @@
 import StartupModel from "../../model/startup/index.js";
+import sequelize from "../../db/config.js";
 const NearestStartupController = {
     nearestStartup: async (req, res, next) => {
         try {
-          const { startupLatitude, startupLongitude } = req.body;
+          const { startupLatitude, startupLongitude } = req.query;
     
           const nearStartups = await StartupModel.findAll({
             order: [
