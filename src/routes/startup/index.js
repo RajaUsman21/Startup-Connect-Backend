@@ -5,7 +5,7 @@ import startupController from '../../controller/startup/index.js';
 import AuthenticateMiddleware from "../../middleware/auth.js";
 const startupRouter = Router();
 
-startupRouter.post("/startup/register",AuthenticateMiddleware, startupController.registerStartup);
+startupRouter.post("/startup/register", startupController.registerStartup);
 startupRouter.put("/startup/:id", startupController.updateStartup);
 startupRouter.get("/startup/:id", startupController.viewStartup);
 startupRouter.delete("/startup/:id", startupController.deleteStartup);
