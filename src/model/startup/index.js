@@ -16,20 +16,19 @@ const StartupModel = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-   
-    location: { type: DataTypes.GEOGRAPHY("POINT", 4326), allowNull: false },
 
-    
+    location: { type: DataTypes.GEOGRAPHY("POINT", 4326), allowNull: true },
+
     website: {
       type: DataTypes.STRING,
     },
-    logo:{
-      type: DataTypes.STRING
-    }
-
+    logo: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    
   },
-  {
-  }
+  {}
 );
 
 export default StartupModel;

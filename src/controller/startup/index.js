@@ -1,4 +1,4 @@
-import StartupModel from "../../model/startup/index.js"; 
+import StartupModel from "../../model/startup/index.js";
 import sequelize from "../../db/config.js";
 import { Op } from "sequelize";
 import getCoordsForAddress from "../../utils/location.js";
@@ -6,17 +6,21 @@ import axios from "axios";
 
 const StartupController = {
   registerStartup: async (req, res) => {
+    // res.status(201).json({ message: "Request Recieved" });
     const { startupName, description, address, logo, website } = req.body;
     console.log("====================================");
     console.log("Received data:", req.body);
     console.log("====================================");
 
-    try { 
-      // if (!startupName || !description || !address || !logo || !website) {
-      //   return res
-      //     .status(400)
-      //     .json({ message: "Name, description, address, logo, and website are required" });
-      // }
+    try {
+      if (!startupName || !description || !address || !logo || !website) {
+        return res
+          .status(400)
+          .json({
+            message:
+              "Name, description, address, logo, and website are required",
+          });
+      }
 
       let locationCoordinates;
       if (address) {
@@ -45,9 +49,7 @@ const StartupController = {
         location: geoJSON,
       });
 
-      return res
-        .status(201)
-        .json({ message: "Startup registered", data: startup });
+      res.status(201).json({ message: "Startup registered", data: startup });
     } catch (error) {
       console.error("Register startup error: ", error);
       res.status(500).json({ message: "Internal server error", error });
